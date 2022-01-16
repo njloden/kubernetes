@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: echo-ingress
+  namespace: echo-test
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  tls:
+  - hosts:
+      - echo-test.info
+    secretName: echo-test-secret-tls
+  rules:
+    - host: echo-test.info
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: echo-nodeport-service
+                port:
+                  number: 80
+
