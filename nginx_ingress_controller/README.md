@@ -31,20 +31,22 @@ https://minikube.sigs.k8s.io/docs/start/
   minikube service list
   ```
 
-5. Run the newly built image:  
+5. Create the namespace for the echo-server application:  
   ```shell
-  sudo docker run -d -p 5002:5002 --name web-app-experiment web-app-experiment   
+  kubectl apply -f echo-server-namespace.yaml
+  kubectl get namespace
   ```
   
-6. Ensure container is running and send a request to the app to make sure it is responding to requests:   
+6. Create a deployment for this application, which will create 3 echo-server pods, a replicaset, and the deployment object:   
   ```shell
-  sudo docker ps  
-  curl http://localhost:5002  
+  kubectl apply -f echo-server-deployment.yaml
+  kubectl get all -n echo-server
   ```
 
-7. Build docker image for nginx reverse proxy which will act as the ambassador and split requests:  
+7. Create a service of type NodePort to expose this application externally from the minikube cluster:  
   ```shell
-  sudo docker build --tag nginx-proxy:latest ./proxy 
+  kubectl apply -f echo-server-service-nodeport.yaml
+  kubectl get service -n echo-server
   ```
   
 8. Run the newly built image, and link to the other containers so nginx knows where to proxy requests:  
