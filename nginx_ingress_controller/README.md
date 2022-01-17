@@ -1,5 +1,5 @@
 # Kubernetes Nginx Ingress Controller on Minikube 
-## Minikube provides a very easy way to standup a local, single node kubernetes development environment. In this example, we will utilize Minikube and deploy the nginx ingress controller to manage new ingress objects that will provide virtual host routing, ssl termination, and session affinity/stickiness. We will build this application from the ground up, and slowly add new functionality via different kubernetes objects to illustrate their purpose.  
+## Minikube provides a very easy way to standup a local, single node kubernetes development cluster. In this example, we will utilize Minikube and deploy the nginx ingress controller to manage new ingress objects that will provide virtual host routing, ssl termination, and session affinity/stickiness. We will build this application from the ground up, and slowly add new functionality via different kubernetes objects to illustrate their purpose.  
 
 ![request splitting architecture diagram](ambassador_request_splitting_arch.png)
 
