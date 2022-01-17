@@ -49,9 +49,12 @@ https://minikube.sigs.k8s.io/docs/start/
   kubectl get service -n echo-server
   ```
   
-8. Run the newly built image, and link to the other containers so nginx knows where to proxy requests:  
+8. Test the application, using the minikube ip address and the dynamically allocated NodePort tcp port. Notice how load is distributed accross all three echo-server application pods:  
   ```shell
-  sudo docker run -d -p 8080:8080 --link web-app-prod:web-app-prod --link web-app-experiment:web-app-experiment --name nginx-proxy nginx-proxy
+  IP=$(minikube ip)
+  PORT=$(kubectl get service -n echo-server | grep -v TYPE | awk '{print $5}' | cut -d : -f2 | cut -d '/' -f1)
+  curl http://${IP}:${PORT}
+  for i in {1..10}; do curl -s http://${IP}:${PORT} | grep served; done
   ```
   
 9. Ensure container is running and send a request to the app to make sure it is responding to requests:  
