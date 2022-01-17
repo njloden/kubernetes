@@ -71,10 +71,24 @@ https://minikube.sigs.k8s.io/docs/start/
   ping echo-server.info
   ```
   
-11. The hostname of this app is NOT resolvable via DNS, so you will need to create an entry in /etc/hosts:
+11. Test the application using only the hostname defined in the ingress previously created:
   ```shell
-  echo "$(minikube ip) echo-server.info" | sudo tee -a /etc/hosts
-  ping echo-server.info
+  curl http://echo-server.info
   ```
 
-
+12. To enable https/ssl termination from our ingress, we will need to generate a certificate and private key first:
+  ```shell
+  openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout echo-server.info.key -out echo-server.info.crt -subj "/CN=echo-server.info/O=echo-server.info"
+  ```
+  
+13. Create a kubernetes Secret to house the cert and key generated from the previous step:
+  ```shell
+  kubectl create secret tls echo-server-secret-tls --key echo-server.info.key --cert echo-server.info.crt -n echo-server
+  kubectl get secret -n echo-server
+  ```
+  
+14. Create a kubernetes Secret to house the cert and key generated from the previous step:
+  ```shell
+  kubectl create secret tls echo-server-secret-tls --key echo-server.info.key --cert echo-server.info.crt -n echo-server
+  kubectl get secret -n echo-server
+  ```
