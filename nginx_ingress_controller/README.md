@@ -1,13 +1,13 @@
 # Kubernetes Nginx Ingress Controller on Minikube 
-## Commonly used to broker requests between an application and other resources or the end users. In this example, we will apply this design pattern to implement http request splitting. This can be very useful if you wish to only roll out a new build to a fraction of your user population. Here, we deploy two simple flask web applications, one for prod and one for the new experimental version. Then we spin up an nginx proxy container to act as our ambassador/broker, and split the requests between each web application. 90% of requests should reach the prod web app, while only 10% should hit the new experimental version. This is ultimately handled by the weightdirective in nginx, with a value of 9 set for the production web application. 
+## Minikube provides a very easy way to standup a local, single node kubernetes development environment. In this example, we will utilize Minikube and deploy the nginx ingress controller to manage new ingress objects that will provide virtual host routing, ssl termination, and session affinity/stickiness. We will build this application from the ground up, and slowly add new functionality via different kubernetes objects to illustrate their purpose.  
 
 ![request splitting architecture diagram](ambassador_request_splitting_arch.png)
 
 ## Prerequisites:  
-Install the docker engine before proceeding.  
+Install minikube before proceeding.  
 
-Offical Docker install reference:  
-https://docs.docker.com/engine/install  
+Offical Minikube install reference:  
+https://minikube.sigs.k8s.io/docs/start/ 
 
 ## Build Procedure:
 1. Build docker image for flask production web application:  
