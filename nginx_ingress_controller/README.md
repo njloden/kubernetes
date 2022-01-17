@@ -59,17 +59,22 @@ https://minikube.sigs.k8s.io/docs/start/
       
   ![deployment_testing_results](nginx_ingress_controller_deployment_testing_results.png)
   
-9. Ensure container is running and send a request to the app to make sure it is responding to requests:  
+9. Create an ingress that will handle http/clear text traffic:  
   ```shell
-  sudo docker ps
-  curl http://localhost:8080
+  kubectl apply -f echo-server-ingress-http.yaml
+  kubectl get ingress -n echo-server
   ```
   
-10. Nginx is configured to send 90% of requests to the prod app, and 10% to the experimental version. Send 10 requests to the nginx reverse proxy/ambassador, and ensure at least one request is being routed to the experimental web application:
+10. The hostname of this app is NOT resolvable via DNS, so you will need to create an entry in /etc/hosts:
   ```shell
-  for i in {1..10}; do
-    curl http://localhost:8080 && echo ""
-  done 
+  echo "$(minikube ip) echo-server.info" | sudo tee -a /etc/hosts
+  ping echo-server.info
+  ```
+  
+11. The hostname of this app is NOT resolvable via DNS, so you will need to create an entry in /etc/hosts:
+  ```shell
+  echo "$(minikube ip) echo-server.info" | sudo tee -a /etc/hosts
+  ping echo-server.info
   ```
 
 
