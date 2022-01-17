@@ -56,6 +56,8 @@ https://minikube.sigs.k8s.io/docs/start/
   curl http://${IP}:${PORT}
   for i in {1..10}; do curl -s http://${IP}:${PORT} | grep served; done
   ```
+      
+  ![deployment_testing_results](nginx_ingress_controller_deployment_testing_results.png)
   
 9. Ensure container is running and send a request to the app to make sure it is responding to requests:  
   ```shell
