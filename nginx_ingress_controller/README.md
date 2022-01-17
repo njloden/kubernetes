@@ -10,25 +10,25 @@ Offical Minikube install reference:
 https://minikube.sigs.k8s.io/docs/start/ 
 
 ## Build Procedure:
-1. Build docker image for flask production web application:  
+1. Start minikube if not already running:  
   ```shell
-  sudo docker build --tag web-app-prod:latest ./app_prod  
+  minikube start  
   ```
   
-2. Run the newly built image:  
+2. Optional: Create alias for kubectl to reduce keystrokes. Example for debian based linux distribution:  
   ```shell  
-  sudo docker run -d -p 5001:5001 --name web-app-prod web-app-prod   
+  echo 'alias kubectl="minikube kubectl --"' >> ~/.bashrc   
   ```
   
-3. Ensure container is running and send a request to the app to make sure it is responding to requests:  
+3. Install the nginx ingress controller in minikube by enabling an addon:  
   ```shell  
-  sudo docker ps  
-  curl http://localhost:5001  
+  minikube addons enable ingress  
   ```
 
-4. Build docker image for flask experimental web application:  
+4. Verify the nginx ingress controller was installed and it's pod is running:  
   ```shell
-  sudo docker build --tag web-app-experiment:latest ./app_experiment
+  kubectl -n ingress-nginx get pods
+  minikube service list
   ```
 
 5. Run the newly built image:  
